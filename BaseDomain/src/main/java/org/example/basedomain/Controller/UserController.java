@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/user")
+@RequestMapping("/auth")
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -51,6 +51,11 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtil.genrateToken(user.getUsername(),15);
         return ResponseEntity.ok(token);
+    }
+    @GetMapping("/validate")
+    public ResponseEntity<Boolean> validateToken(@RequestParam("token") String token) {
+            boolean isValid = jwtUtil.validateToken(token);
+        return ResponseEntity.ok(isValid);
     }
     @GetMapping("/userslist")
     public ResponseEntity<List<UserDetailsDTO>> getAllUsers() {

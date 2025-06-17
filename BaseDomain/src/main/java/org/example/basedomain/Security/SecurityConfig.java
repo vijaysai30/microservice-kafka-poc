@@ -74,7 +74,7 @@ public class SecurityConfig  {
         JWTRefreshTokenFilter jwtRefreshTokenFilter = new JWTRefreshTokenFilter(authenticationManager,jwtUtil);
 
         htpp.authorizeHttpRequests(auth->auth
-                .requestMatchers("v1/user/create","v1/user/login","v1/user/info").permitAll()
+                .requestMatchers("auth/create","auth/login","auth/info").permitAll()
                 .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex
                 .accessDeniedHandler(new OrderServiceAccessDeniedHandler())

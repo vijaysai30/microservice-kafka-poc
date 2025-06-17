@@ -1,6 +1,6 @@
 package org.example.orderservice.exception;
 
-import org.example.basedomain.Entity.ErrorObject;
+import org.example.orderservice.Entity.ErrorObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

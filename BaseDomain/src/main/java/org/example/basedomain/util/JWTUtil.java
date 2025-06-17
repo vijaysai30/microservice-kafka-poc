@@ -1,9 +1,7 @@
 package org.example.basedomain.util;
 
 
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.security.Keys;
 
@@ -35,5 +33,24 @@ public class JWTUtil {
         catch (JwtException e){
             return null;
         }
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(key).parseClaimsJws(token);
+            return true;
+        }
+        catch (ExpiredJwtException e) {
+            System.out.println("JWT expired: " + e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            System.out.println("Unsupported JWT: " + e.getMessage());
+        } catch (MalformedJwtException e) {
+            System.out.println("Malformed JWT: " + e.getMessage());
+        } catch (SignatureException e) {
+            System.out.println("Invalid signature: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Empty token: " + e.getMessage());
+        }
+        return false;
     }
 }
