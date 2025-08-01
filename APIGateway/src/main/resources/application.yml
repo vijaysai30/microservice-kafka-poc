@@ -12,25 +12,6 @@ management:
       exposure:
         include: "*"
 
-#  this is api gate way file now i need to do mapping
-# any request should first go to Auth-Service if its validated then it should go to Order-Service
-#spring:
-#  cloud:
-#    gateway:
-#      webflux:
-#        routes:
-#          - id: Auth-Service
-#            uri: lb://Auth-Service
-#            predicates:
-#              - Path=/auth/**
-#            filters:
-#              - AuthenticationFilter
-#          - id: order-service
-#            uri: lb://ORDER-SERVICE
-#            predicates:
-#              - Path=/order/**
-#            filters:
-#              - AuthenticationFilter
 spring:
   application:
     name: api-gateway
@@ -49,5 +30,11 @@ spring:
               uri: lb://Order-Service
               predicates:
                 - Path=/ordercontroller/**
+              filters:
+                - AuthenticationFilter
+            - id: Stock-Service
+              uri: lb://Stock-Service
+              predicates:
+                - Path=/stockcontroller/**
               filters:
                 - AuthenticationFilter

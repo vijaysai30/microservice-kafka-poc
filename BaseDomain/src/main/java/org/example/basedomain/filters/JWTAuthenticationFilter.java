@@ -25,6 +25,12 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
+    /*
+    This method is called for every request that passes through the filter chain.
+    It checks if the request is for generating a token (e.g., login request).
+    If it is, it reads the login credentials from the request body, authenticates the user,
+    and generates a JWT token if the authentication is successful.
+     */
     @Override
     protected void doFilterInternal( HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException , IOException {
 

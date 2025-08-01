@@ -23,7 +23,13 @@ public class JWTUtil {
         catch (ExpiredJwtException e) {
             throw new JwtException("Token has expired");
         } catch (UnsupportedJwtException e) {
-           throw new JwtException("Token is not supported");
+            throw new JwtException("Token is not supported");
+        } catch (MalformedJwtException e) {
+            throw new JwtException("Token is malformed");
+        } catch (SignatureException e) {
+            throw new JwtException("Invalid signature");
+        } catch (IllegalArgumentException e) {
+            throw new JwtException("Token is null or empty");
         }
 //        return false;
     }

@@ -28,12 +28,10 @@ public  class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("status", HttpStatus.BAD_REQUEST);
-        List<String> errorList = ex.getBindingResult().getFieldErrors().stream()
-                .map(x->x.getDefaultMessage()).collect(Collectors.toList());
-        body.put("message", errorList);
-        body.put("timestamp", new Date());
-        return new ResponseEntity<>(body,HttpStatus.BAD_REQUEST);
+
+       String message = ex.getBindingResult().getFieldErrors().stream()
+                .map(x->x.getDefaultMessage()).toString();
+        ErrorObject errorObject = new ErrorObject(message,status.toString(),new Date());
+        return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
     }
 }

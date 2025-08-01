@@ -46,7 +46,7 @@ public class OrderController {
         return ResponseEntity.ok().body("check");
     }
 
-    @GetMapping("/order")
+    @GetMapping("/get-order-databyId")
     @Cacheable(value = "order", key= "#orderId")
     public ResponseEntity<OrderDetails> getOrderbyID(@RequestParam long orderId) {
         log.info("OrderController get order class ");
@@ -55,9 +55,25 @@ public class OrderController {
         if(order == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        OrderEvent orderEvent = new OrderEvent("order Event Created","Created",
-                new Order(order.getOrderId(), order.getPrice(), order.getOrderName(), order.getQuantity()));
-        orderProducer.sendOrderEvent(orderEvent);
         return ResponseEntity.ok(order);
+    }
+
+    @PostMapping("/create-order")
+    public ResponseEntity<OrderDetails> createOrder(@RequestParam Long productId ,@RequestParam Long quantity) {
+        log.info("Creating order for Product ID: {}", productId);
+        OrderEvent orderEvent = orderService.createOrder(productId, quantity);
+        if (orderEvent == null) {
+            log.error("Order creation failed for Product ID: {}", productId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        Order order = orderEvent.getOrder();
+
+        OrderDetails orderDetails = new OrderDetails();
+        orderDetails.setOrderName(order.getOrderName());
+        orderDetails.setPrice(order.getPrice());
+        orderDetails.setQuantity(quantity);
+        orderRepo.save(orderDetails);
+        orderProducer.sendOrderEvent(orderEvent);
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderDetails);
     }
 }

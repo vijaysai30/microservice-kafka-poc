@@ -27,7 +27,6 @@ public class OrderProducer {
         log.info("Sending order event: {}", orderEvent.toString());
         Message<OrderEvent> message = MessageBuilder.withPayload(orderEvent)
                 .setHeader(KafkaHeaders.TOPIC, newTopic.name())
-//                .setHeader("__TypeId__", orderEvent.getClass().getName())
                 .build();
         kafkaTemplate.send(message);
     }

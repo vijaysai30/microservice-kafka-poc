@@ -5,6 +5,7 @@ import org.example.basedomain.Dto.LoginRequest;
 import org.example.basedomain.Dto.UserDetailsDTO;
 import org.example.basedomain.Entity.UserEntity;
 import org.example.basedomain.Service.UserService;
+import org.example.basedomain.token.JwtAuthenticationToken;
 import org.example.basedomain.util.JWTUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
